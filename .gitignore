@@ -105,3 +105,6 @@ venv.bak/
 
 # PyCharm configs
 .idea
+
+# ignore big resource files
+assignment1/resources/
