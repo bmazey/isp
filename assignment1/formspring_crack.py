@@ -1,5 +1,4 @@
-# TODO - implement password cracking technique!
-# opening development branch
+import hashlib
 
 
 def dictionary_attack():
@@ -21,7 +20,23 @@ def dictionary_attack():
             passwords.add(line.replace("\n", ""))
 
     # now we have a list of hashes and a set of passwords - we can define our salt and get to cracking!
-    # TODO - define salt
+    salt = list(range(10, 100))
+
+    # let the cracking begin!
+    # this will be our cracked password counter
+    cracked = 0
+
+    # iterate over the password set applying the salt, hashing, then comparing to the formspring hash list
+    for password in passwords:
+        for num in salt:
+            salted = (str(num) + password)
+            digest = hashlib.sha256(salted.encode('utf-8')).hexdigest()
+            if digest in hashes:
+                cracked += 1
+                print('password detected! ' + 'salt: ' + num + ' password: ' + word)
+
+    # print the total
+    print('total passwords cracked: ' + str(cracked))
 
     return
 
