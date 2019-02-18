@@ -1,7 +1,10 @@
 import hashlib
-
+import platform
 
 def dictionary_attack():
+    # test
+    print(platform.architecture())
+
     # start by defining an empty list of hashes
     hashes = []
 
@@ -33,7 +36,7 @@ def dictionary_attack():
             digest = hashlib.sha256(salted.encode('utf-8')).hexdigest()
             if digest in hashes:
                 cracked += 1
-                print('password detected! ' + 'salt: ' + num + ' password: ' + word)
+                print('password detected! ' + 'salt: ' + str(num) + ' password: ' + password)
 
     # print the total
     print('total passwords cracked: ' + str(cracked))
