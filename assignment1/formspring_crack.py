@@ -47,4 +47,5 @@ def dictionary_attack():
 
 
 if __name__ == '__main__':
+    """ this is our main driver method for the formspring dictionary attack """
     dictionary_attack()
