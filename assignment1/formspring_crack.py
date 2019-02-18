@@ -6,7 +6,7 @@ def dictionary_attack():
     hashes = []
 
     # load the formspring hash file and add each hash to the empty list defined above
-    with open('/resources/formspring.txt') as formspring_file:
+    with open('resources/formspring.txt', 'r') as formspring_file:
         for line in formspring_file:
             hashes.append(line.replace("\n", ""))
 
@@ -15,7 +15,7 @@ def dictionary_attack():
 
     # load the password dictionary and add each password to the set
     # borrowed from crackstation.net
-    with open('/resources/realhuman_phill.txt') as password_dictionary:
+    with open('resources/realhuman_phill.txt', 'r', encoding='UTF-8', errors='ignore') as password_dictionary:
         for line in password_dictionary:
             passwords.add(line.replace("\n", ""))
 
