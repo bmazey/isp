@@ -10,17 +10,18 @@ def dictionary_attack():
     # start by defining an empty list of hashes
     hashes = []
 
-    # load the formspring hash file and add each hash to the empty list defined above
-    with open('resources/formspring.txt', 'r') as formspring_file:
-        for line in formspring_file:
+    # load the Ashley Madison hash file and add each hash to the empty list defined above
+    with open('resources/AM2M.dump', 'r') as ashley_madison_file:
+        for line in ashley_madison_file:
+            # TODO - need a different way to parse this
             hashes.append(line.replace("\n", ""))
 
     # now define an empty set of passwords
     passwords = set()
 
     # load the password dictionary and add each password to the set
-    # borrowed from crackstation.net
-    with open('resources/realhuman_phill.txt', 'r', encoding='UTF-8', errors='ignore') as password_dictionary:
+    # borrowed from http://github.com/brannondorsey/naive-hashcat
+    with open('resources/rockyou.txt', 'r') as password_dictionary:
         for line in password_dictionary:
             passwords.add(line.replace("\n", ""))
 
