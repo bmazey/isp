@@ -1,8 +1,10 @@
 import hashlib
 import platform
 
+
 def dictionary_attack():
-    # test
+
+    # test - apparently I was using a 32-bit python distro >_>;
     print(platform.architecture())
 
     # start by defining an empty list of hashes
