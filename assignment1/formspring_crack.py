@@ -34,11 +34,12 @@ def dictionary_attack():
     # iterate over the password set applying the salt, hashing, then comparing to the formspring hash list
     for password in passwords:
         for num in salt:
+            # notice that here the salt is a number from 10 - 100 concatenated with the password
             salted = (str(num) + password)
             digest = hashlib.sha256(salted.encode('utf-8')).hexdigest()
             if digest in hashes:
                 cracked += 1
-                print('password detected! ' + 'salt: ' + str(num) + ' password: ' + password)
+                print('password detected! salt: ' + str(num) + ' password: ' + password)
 
     # print the total
     print('total passwords cracked: ' + str(cracked))
