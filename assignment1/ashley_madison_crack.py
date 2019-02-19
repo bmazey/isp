@@ -15,7 +15,7 @@ def dictionary_attack():
 
     # load the Ashley Madison hash file and add each hash to the empty list defined above
     # we need to parse the user names and hashes separately as we will need the usernames later for salt
-    with open('resources/AM2M.dump', 'r') as ashley_madison_file:
+    with open('resources/AM2M.dump', 'r', encoding='UTF-8', errors='ignore') as ashley_madison_file:
         for line in ashley_madison_file:
             hashes.append(line.replace("\n", "").split(",")[3][1:-1])
             users.append(line.replace("\n", "").split(",")[1][1:-1])
@@ -25,7 +25,7 @@ def dictionary_attack():
 
     # load the password dictionary and add each password to the set
     # borrowed from http://github.com/brannondorsey/naive-hashcat
-    with open('resources/rockyou.txt', 'r') as password_dictionary:
+    with open('resources/rockyou.txt', 'r', encoding='UTF-8', errors='ignore') as password_dictionary:
         for line in password_dictionary:
             passwords.add(line.replace("\n", ""))
 
@@ -38,6 +38,7 @@ def dictionary_attack():
         for password in passwords:
             # notice that the salt here is a username + :: + password
             salted = (user + '::' + password)
+            print('salted string: ' + salted)
             # I'm also using a different hashing algorithm here: MD5
             # bcrypt would be too difficult to get back into plaintext, so I'm ignoring it
             digest = hashlib.md5(salted.encode('utf-8')).hexdigest()
