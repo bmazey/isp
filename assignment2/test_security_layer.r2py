@@ -25,7 +25,7 @@ assert('SE' == myfile.readat(None,0))
 myfile.close()
 
 # open the file again
-myfile=ABopenfile("testfile.txt",True)
+myfile=ABopenfile("testfile.txt",False)
 
 # assert that the file saved correctly
 assert('Stest12345E' == myfile.readat(None,0))

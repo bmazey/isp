@@ -28,9 +28,13 @@ class ABFile():
 
         # make the files and add 'SE' to the readat file...
         if create:
-            self.Afile = openfile(self.Afn, create)
-            self.Bfile = openfile(self.Bfn, create)
+            self.Afile = openfile(self.Afn, True)
+            self.Bfile = openfile(self.Bfn, True)
             self.Afile.writeat('SE', 0)
+        # adding this case
+        else:
+            self.Afile = openfile(self.Afn, False)
+            self.Bfile = openfile(self.Bfn, False)
 
     def writeat(self, data, offset):
         # Write the requested data to the B file using the sandbox's writeat call
