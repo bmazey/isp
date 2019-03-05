@@ -43,6 +43,7 @@ class ABFile():
     def close(self):
         # here is where we assert that the file contents start with 'S' and end with 'E'
         bfilecontent = self.Bfile.readat(None, 0)
+        # log('content: ' + bfilecontent)
         if bfilecontent.startswith('S') and bfilecontent.endswith('E'):
             self.Afile.writeat(bfilecontent, 0)
         self.Afile.close()
