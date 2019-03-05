@@ -1,4 +1,3 @@
-
 # cleanup
 if "testfile.txt.a" in listfiles():
   removefile("testfile.txt.a")
@@ -25,7 +24,7 @@ assert('SE' == myfile.readat(None,0))
 myfile.close()
 
 # open the file again
-myfile=ABopenfile("testfile.txt",False)
+myfile=ABopenfile("testfile.txt", False)
 
 # assert that the file saved correctly
 assert('Stest12345E' == myfile.readat(None,0))
@@ -40,7 +39,7 @@ myotherfile.writeat("test123E", 0)
 myotherfile.close()
 
 # open the file again
-myotherfile=ABopenfile("othertestfile.txt",True)
+myotherfile=ABopenfile("othertestfile.txt", False)
 
 # assert that the content wasn't written
 assert('SE' == myotherfile.readat(None, 0))
