@@ -9,7 +9,7 @@ if "othertestfile.txt.b" in listfiles():
   removefile("othertestfile.txt.b")
 
 # first test - should store content in 'testfile' successfully
-myfile=ABopenfile("testfile.txt",True)  # create an AB file
+myfile=ABopenfile("testfile.txt", True)  # create an AB file
 
 # I should get 'SE' when reading an empty file...
 assert('SE' == myfile.readat(None,0))

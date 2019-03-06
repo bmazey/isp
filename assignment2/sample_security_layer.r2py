@@ -49,7 +49,10 @@ class ABFile():
         bfilecontent = self.Bfile.readat(None, 0)
         # log('content: ' + bfilecontent)
         if bfilecontent.startswith('S') and bfilecontent.endswith('E'):
+            # write the content into the a file
             self.Afile.writeat(bfilecontent, 0)
+            # clear the b file content
+            self.Bfile.writeat('', 0)
         self.Afile.close()
         self.Bfile.close()
 
@@ -74,4 +77,8 @@ CHILD_CONTEXT_DEF["ABopenfile"] = {TYPE: OBJC, ARGS: (str, bool), EXCP: Exceptio
                                    TARGET: ABopenfile}
 
 # Execute the user code
-secure_dispatch_module()
+# expanding this to ignore errors
+try:
+    secure_dispatch_module()
+except:
+    log('')
