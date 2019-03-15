@@ -1,9 +1,27 @@
 
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("This is before the function is invoked!")
+        func(*args, **kwargs)
+        print("This is after the function is invoked!")
+    return wrapper
 
-def pl_reverse(list):
-    if not list:
+
+def pl_reverse(my_list):
+    if not my_list:
         return []
-    return [list.pop()] + pl_reverse(list)
+    return [my_list.pop()] + pl_reverse(my_list)
+
+
+def factorial(n):
+    if n < 2:
+        return n * 1
+    return n * factorial(n - 1)
+
+
+@my_decorator
+def greeting():
+    print('hello!')
 
 
 if __name__ == '__main__':
@@ -12,3 +30,5 @@ if __name__ == '__main__':
     print("original: " + str(my_list))
     new_list = pl_reverse(my_list)
     print("reversed: " + str(new_list))
+    print(str(factorial(3)))
+    greeting()
