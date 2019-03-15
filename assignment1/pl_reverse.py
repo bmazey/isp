@@ -24,6 +24,15 @@ def greeting():
     print('hello!')
 
 
+def my_closure(name):
+    message = "Hi"
+
+    def my_greeting():
+        print(message + ' ' + name)
+
+    my_greeting()
+
+
 if __name__ == '__main__':
     """ this function is for Programming Languages! """
     my_list = [1, 2, 3, 4]
@@ -32,3 +41,4 @@ if __name__ == '__main__':
     print("reversed: " + str(new_list))
     print(str(factorial(3)))
     greeting()
+    my_closure("Kathy")
