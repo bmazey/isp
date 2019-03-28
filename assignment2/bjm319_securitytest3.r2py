@@ -1,0 +1,20 @@
+# cleanup
+if "thirdtestfile.txt.a" in listfiles():
+  removefile("thirdtestfile.txt.a")
+if "thirdtestfile.txt.b" in listfiles():
+  removefile("thirdtestfile.txt.b")
+
+# second test - i should get 'SE' in myotherfile because it doesn't begin with an 'S' character
+mythirdfile = ABopenfile("thirdtestfile.txt", True)
+
+# write valid data at an invalid position
+mythirdfile.writeat("Stest123E", -1)
+
+# close the file
+mythirdfile.close()
+
+# try to open the file again
+mythirdfile=ABopenfile("thirdtestfile.txt", False)
+
+# assert that the content wasn't written
+assert('SE' == mythirdfile.readat(None, 0))

@@ -1,0 +1,26 @@
+# cleanup
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+
+# first test - should store content in 'testfile' successfully
+myfile=ABopenfile("testfile.txt", True)  # create an AB file
+
+# I should get 'SE' when reading an empty file...
+assert('SE' == myfile.readat(None,0))
+
+# put some valid data in the file.
+myfile.writeat("Stest12345E",0)
+
+# I should still get 'SE' because the file wasn't closed.
+assert('SE' == myfile.readat(None,0))
+
+# close the file
+myfile.close()
+
+# open the file again
+myfile=ABopenfile("testfile.txt", False)
+
+# assert that the file saved correctly
+assert('Stest12345E' == myfile.readat(None,0))

@@ -1,0 +1,20 @@
+# cleanup
+if "othertestfile.txt.a" in listfiles():
+  removefile("othertestfile.txt.a")
+if "othertestfile.txt.b" in listfiles():
+  removefile("othertestfile.txt.b")
+
+# second test - i should get 'SE' in myotherfile because it doesn't begin with an 'S' character
+myotherfile = ABopenfile("othertestfile.txt", True)
+
+# put some invalid data in
+myotherfile.writeat("test123E", 0)
+
+# close the file
+myotherfile.close()
+
+# open the file again
+myotherfile=ABopenfile("othertestfile.txt", False)
+
+# assert that the content wasn't written
+assert('SE' == myotherfile.readat(None, 0))

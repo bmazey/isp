@@ -1,9 +1,11 @@
 import json
 import os
-import math
 import dateutil.parser
 import time
 from botocore.vendored import requests
+
+
+""" Here is our main AWS LF1 implementation  - some functions are omitted as they contain API keys """
 
 
 # use dateutil to check if user's date input can be correctly parsed ...
@@ -14,6 +16,7 @@ def is_valid_date(date):
     except ValueError:
         return False
 
+
 # check if user input can be cast to an integer
 def parse_int(n):
     try:
@@ -22,7 +25,7 @@ def parse_int(n):
         return float('nan')
 
 
-def delegate(session_attributes, slots):
+def refer(session_attributes, slots):
     return {
         'sessionAttributes': session_attributes,
         'dialogAction': {
@@ -37,6 +40,7 @@ def get_slots(intent_request):
     return intent_request['currentIntent']['slots']
 
 
+# close session when done
 def close(session_attributes, fulfillment_state, message):
     response = {
         'sessionAttributes': session_attributes,
@@ -65,7 +69,7 @@ def build_validation_result(is_valid, violated_slot, message_content):
     }
 
 
-def elicit_slot(session_attributes, intent_name, slots, slot_to_elicit, message):
+def ask_slot(session_attributes, intent_name, slots, slot_to_elicit, message):
     return {
         'sessionAttributes': session_attributes,
         'dialogAction': {
@@ -92,7 +96,7 @@ def greeting_intent():
 
 # validate user input
 # only implementing NYC locations for now ...
-def validate_dining_suggestion(location, cuisine, num_people, date, time):
+def validate_user_input(location, cuisine, num_people, date, time):
     # validate locations
     locations = ['brooklyn', 'queens', 'new york', 'manhattan', 'the bronx', 'staten island']
     if location is not None and location.lower() not in locations:
@@ -115,17 +119,6 @@ def validate_dining_suggestion(location, cuisine, num_people, date, time):
                                            'People',
                                            'Please provide the size of your party (20 people max)!')
 
-    # validate time
-    if time is not None:
-        if len(time) != 5:
-            return build_validation_result(False, 'Time', None)
-
-        hour, minute = time.split(':')
-        hour = parse_int(hour)
-        minute = parse_int(minute)
-        if math.isnan(hour) or math.isnan(minute):
-            return build_validation_result(False, 'Time', 'Not a valid time')
-
     return build_validation_result(True, None, None)
 
 
@@ -141,28 +134,27 @@ def restaurant_intent(intent_request):
     if source == 'DialogCodeHook':
         slots = get_slots(intent_request)
 
-        validation_result = validate_dining_suggestion(location, cuisine, num_people, date, time)
+        validation_result = validate_user_input(location, cuisine, num_people, date, time)
 
         if not validation_result['isValid']:
             slots[validation_result['violatedSlot']] = None
-            return elicit_slot(intent_request['sessionAttributes'],
-                               intent_request['currentIntent']['name'],
-                               slots,
-                               validation_result['violatedSlot'],
-                               validation_result['message'])
+            return ask_slot(intent_request['sessionAttributes'],
+                            intent_request['currentIntent']['name'],
+                            slots,
+                            validation_result['violatedSlot'],
+                            validation_result['message'])
 
         output_session_attributes = intent_request['sessionAttributes'] if intent_request[
                                                                                'sessionAttributes'] is not None else {}
 
-        return delegate(output_session_attributes, get_slots(intent_request))
+        return refer(output_session_attributes, get_slots(intent_request))
 
     # Add Yelp API endpoint to get the data
     requestData = {
         "term": cuisine + ", restaurants",
         "location": location,
         "categories": cuisine,
-        "open_at": "1552572000",
-        "limit": "3",
+        "limit": "4",
         "peoplenum": num_people,
         "Date": date,
         "Time": time
@@ -224,6 +216,4 @@ def action_intent(intent_request):
 
 def handler(event, context):
     """ This is our main handler function for LF1 AWS Lambda """
-    os.environ['TZ'] = 'America/New_York'
-    time.tzset()
     return action_intent(event)
